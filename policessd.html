@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulated USSD Interface</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: black;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        header {
+            background-color: red;
+            color: white;
+            padding: 10px 0;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .ussd-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .ussd-screen {
+            width: 300px;
+            height: 150px;
+            background-color: black;
+            color: white;
+            border: 2px solid green;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+            padding: 10px;
+            margin-bottom: 10px;
+            overflow-y: auto;
+        }
+
+        .ussd-input {
+            padding: 10px;
+            width: 80%;
+            max-width: 300px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .ussd-button {
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .ussd-button:hover {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <!-- HTML Structure -->
+    <header>
+        <h1>USSD Code Simulation</h1>
+    </header>
+    
+    <main>
+        <section class="ussd-container">
+            <div class="ussd-screen" id="ussdScreen">
+                Welcome to the Police Information System<br/>
+                1. Check Police Officer Info<br/>
+                2. Notify Family of Arrest<br/>
+                0. Exit
+            </div>
+            <input type="text" id="ussdInput" class="ussd-input" placeholder="Enter option number">
+            <button type="button" class="ussd-button" onclick="processUSSD()">Send</button>
+        </section>
+    </main>
+
+    <script>
+        // JavaScript for USSD Simulation
+        const officers = [
+            {name: 'John Doe', badgeNumber: '12345', department: 'Homicide', station: 'Central Police Station', contact: 'john.doe@police.gov'},
+            {name: 'Jane Smith', badgeNumber: '67890', department: 'Narcotics', station: 'Westside Police Station', contact: 'jane.smith@police.gov'},
+            {name: 'Michael Johnson', badgeNumber: '11223', department: 'Cyber Crime', station: 'Eastside Police Station', contact: 'michael.johnson@police.gov'},
+            {name: 'Emily Davis', badgeNumber: '33445', department: 'Traffic', station: 'Northside Police Station', contact: 'emily.davis@police.gov'}
+        ];
+
+        let ussdStage = 0;
+
+        function processUSSD() {
+            const ussdInput = document.getElementById('ussdInput').value;
+            const ussdScreen = document.getElementById('ussdScreen');
+            ussdScreen.innerHTML = ''; // Clear the screen for new input
+
+            switch (ussdStage) {
+                case 0:
+                    if (ussdInput === '1') {
+                        ussdStage = 1;
+                        ussdScreen.innerHTML = 'Enter Officer Name or Badge Number:';
+                    } else if (ussdInput === '2') {
+                        ussdStage = 2;
+                        ussdScreen.innerHTML = 'Enter Family Member\'s Phone Number:';
+                    } else if (ussdInput === '0') {
+                        ussdScreen.innerHTML = 'Exiting...';
+                    } else {
+                        ussdScreen.innerHTML = 'Invalid option. Try again.<br/>1. Check Police Officer Info<br/>2. Notify Family of Arrest<br/>0. Exit';
+                    }
+                    break;
+
+                case 1:
+                    // Search for officer
+                    const officer = officers.find(o => o.name.toLowerCase() === ussdInput.toLowerCase() || o.badgeNumber === ussdInput);
+                    if (officer) {
+                        ussdScreen.innerHTML = `Officer Found: ${officer.name}, ${officer.badgeNumber}, ${officer.department}, ${officer.station}, ${officer.contact}<br/>0. Back`;
+                    } else {
+                        ussdScreen.innerHTML = 'Officer not found.<br/>0. Back';
+                    }
+                    ussdStage = 3; // Set stage to go back or continue searching
+                    break;
+
+                case 2:
+                    // Simulate notifying family
+                    ussdScreen.innerHTML = `Notification sent to ${ussdInput}.<br/>0. Back`;
+                    ussdStage = 3;
+                    break;
+
+                case 3:
+                    // Back to main menu
+                    ussdScreen.innerHTML = 'Welcome to the Police Information System<br/>1. Check Police Officer Info<br/>2. Notify Family of Arrest<br/>0. Exit';
+                    ussdStage = 0;
+                    break;
+            }
+
+            document.getElementById('ussdInput').value = ''; // Clear input after processing
+        }
+    </script>
+</body>
+</html>

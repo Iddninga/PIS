@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police and Criminal Information System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .form-group button:hover {
+            background-color: #555;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .table-container {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#" onclick="showSection('policeInfo')">Police Information</a>
+        <a href="#" onclick="showSection('criminalInfo')">Criminal Information</a>
+    </div>
+
+    <!-- Police Information Section -->
+    <div id="policeInfo" class="container">
+        <h1>Police Information System</h1>
+        <form id="policeForm">
+            <div class="form-group">
+                <label for="officerName">Officer Name:</label>
+                <input type="text" id="officerName" name="officerName" required>
+            </div>
+            <div class="form-group">
+                <label for="stationName">Police Station:</label>
+                <input type="text" id="stationName" name="stationName" required>
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="sendNotification()">Send Notification</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Criminal Information Section -->
+    <div id="criminalInfo" class="container hide">
+        <h1>Criminal Information Form</h1>
+        <form id="criminalForm">
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+            <div class="form-group">
+                <label for="crime">Crime Committed:</label>
+                <input type="text" id="crime" name="crime" required>
+            </div>
+            <div class="form-group">
+                <label for="notes">Additional Notes:</label>
+                <textarea id="notes" name="notes" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="submitCriminalForm()">Submit Information</button>
+            </div>
+        </form>
+
+        <!-- Display Table for Criminal Information -->
+        <div class="table-container">
+            <h2>Submitted Criminal Information</h2>
+            <table id="criminalTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Crime</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.getElementById('policeInfo').classList.add('hide');
+            document.getElementById('criminalInfo').classList.add('hide');
+            document.getElementById(sectionId).classList.remove('hide');
+        }
+
+        function sendNotification() {
+            const officerName = document.getElementById('officerName').value;
+            const stationName = document.getElementById('stationName').value;
+
+            alert(`Notification sent! Officer: ${officerName}, Station: ${stationName}`);
+            document.getElementById('policeForm').reset();
+        }
+
+        function submitCriminalForm() {
+            const password = document.getElementById('password').value;
+            if (password !== 'admin') {
+                alert('Incorrect password!');
+                return;
+            }
+
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const crime = document.getElementById('crime').value;
+            const notes = document.getElementById('notes').value;
+
+            const table = document.getElementById('criminalTable').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+            newRow.insertCell(0).textContent = name;
+            newRow.insertCell(1).textContent = age;
+            newRow.insertCell(2).textContent = crime;
+            newRow.insertCell(3).textContent = notes;
+
+            alert('Criminal information submitted successfully!');
+            document.getElementById('criminalForm').reset();
+        }
+    </script>
+</body>
+</html>

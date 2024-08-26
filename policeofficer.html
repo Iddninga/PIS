@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criminal Information Collection System</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 20px;
+            margin: 0;
+        }
+
+        header {
+            background-color: red;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-group button {
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: darkgreen;
+        }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- HTML Structure -->
+    <header>
+        <h1>Criminal Information Collection System</h1>
+    </header>
+
+    <main>
+        <div class="success-message" id="successMessage">Information submitted successfully!</div>
+        <form id="criminalForm">
+            <div class="form-group">
+                <label for="name">Name of Criminal:</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <input type="text" id="gender" required>
+            </div>
+            <div class="form-group">
+                <label for="crime">Crime Committed:</label>
+                <textarea id="crime" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="dateArrested">Date of Arrest:</label>
+                <input type="date" id="dateArrested" required>
+            </div>
+            <div class="form-group">
+                <label for="arrestingOfficer">Arresting Officer:</label>
+                <input type="text" id="arrestingOfficer" required>
+            </div>
+            <div class="form-group">
+                <label for="station">Police Station:</label>
+                <input type="text" id="station" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit Information</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        // JavaScript for Handling Form Submission
+        document.getElementById('criminalForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting
+
+            // Get form data
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const crime = document.getElementById('crime').value;
+            const dateArrested = document.getElementById('dateArrested').value;
+            const arrestingOfficer = document.getElementById('arrestingOfficer').value;
+            const station = document.getElementById('station').value;
+
+            // Simulate saving data (you would typically send this to a server)
+            console.log('Criminal Information:', {
+                name,
+                age,
+                gender,
+                crime,
+                dateArrested,
+                arrestingOfficer,
+                station
+            });
+
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+
+            // Clear form
+            document.getElementById('criminalForm').reset();
+        });
+    </script>
+</body>
+</html>

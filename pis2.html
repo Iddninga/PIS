@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Information System</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: black;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: red;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: green;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        label {
+            margin: 10px 0 5px;
+        }
+
+        input, select, button {
+            padding: 8px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: green;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: red;
+            color: white;
+        }
+
+        #searchBar {
+            margin: 20px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <!-- HTML Structure -->
+    <header>
+        <h1>Police Information System</h1>
+    </header>
+    
+    <main>
+        <section id="case-info">
+            <h2>Case Information</h2>
+            <form id="caseForm">
+                <label for="caseNumber">Case Number:</label>
+                <input type="text" id="caseNumber" name="caseNumber" required>
+
+                <label for="caseType">Case Type:</label>
+                <input type="text" id="caseType" name="caseType" required>
+
+                <label for="officerName">Officer Name:</label>
+                <input type="text" id="officerName" name="officerName" required>
+
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="open">Open</option>
+                    <option value="closed">Closed</option>
+                    <option value="pending">Pending</option>
+                </select>
+
+                <button type="button" onclick="addCase()">Add Case</button>
+            </form>
+        </section>
+
+        <section id="case-list">
+            <h2>List of Cases</h2>
+            <input type="text" id="searchBar" onkeyup="searchCase()" placeholder="Search for cases...">
+            <table id="caseTable">
+                <thead>
+                    <tr>
+                        <th>Case Number</th>
+                        <th>Case Type</th>
+                        <th>Officer Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Cases will be dynamically added here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        // JavaScript Functionality
+        function addCase() {
+            // Get form values
+            const caseNumber = document.getElementById('caseNumber').value;
+            const caseType = document.getElementById('caseType').value;
+            const officerName = document.getElementById('officerName').value;
+            const status = document.getElementById('status').value;
+
+            // Create a new row for the table
+            const table = document.getElementById('caseTable').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+
+            // Insert new cells for case information
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+            const cell4 = newRow.insertCell(3);
+
+            cell1.textContent = caseNumber;
+            cell2.textContent = caseType;
+            cell3.textContent = officerName;
+            cell4.textContent = status;
+
+            // Clear form fields after adding the case
+            document.getElementById('caseForm').reset();
+        }
+
+        function searchCase() {
+            // Get the search query
+            const query = document.getElementById('searchBar').value.toLowerCase();
+            // Get all rows in the table
+            const rows = document.getElementById('caseTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            
+            for (let i = 0; i < rows.length; i++) {
+                // Get the text content of each row
+                const rowText = rows[i].textContent.toLowerCase();
+                // If the query is in the row text, display the row, otherwise hide it
+                if (rowText.includes(query)) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

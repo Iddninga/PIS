@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Officer Information System</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: black;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: red;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: green;
+        }
+
+        .search-container, .contact-form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container input, .contact-form-container input {
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .search-container button, .contact-form-container button {
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-container button:hover, .contact-form-container button:hover {
+            background-color: green;
+        }
+
+        .officer-info {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: none; /* Hidden by default */
+        }
+
+        .officer-info h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- HTML Structure -->
+    <header>
+        <h1>Police Officer Information System</h1>
+    </header>
+    
+    <main>
+        <section class="search-container">
+            <h2>Search for Officer Information</h2>
+            <input type="text" id="officerSearch" placeholder="Enter Officer Name or Badge Number">
+            <button type="button" onclick="searchOfficer()">Search</button>
+        </section>
+
+        <section class="officer-info" id="officerInfo">
+            <h3>Officer Details</h3>
+            <p id="officerName"></p>
+            <p id="badgeNumber"></p>
+            <p id="department"></p>
+            <p id="station"></p>
+            <p id="contact"></p>
+            
+            <!-- Contact Form to Send Information -->
+            <div class="contact-form-container">
+                <h4>Notify a Family Member</h4>
+                <input type="text" id="familyEmail" placeholder="Enter Family Member's Email">
+                <input type="text" id="familyPhone" placeholder="Enter Family Member's Phone Number">
+                <button type="button" onclick="sendNotification()">Send Notification</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // JavaScript Functionality
+
+        // Sample data: List of officers
+        const officers = [
+            {name: 'Philipina KIkaho', badgeNumber: '12345', department: 'Toursim Unit', station: 'Usa River Police Station', contact: '07626356281'},
+            {name: 'Jane Smith', badgeNumber: '67890', department: 'Narcotics', station: 'Westside Police Station', contact: 'jane.smith@police.gov'},
+            {name: 'Michael Johnson', badgeNumber: '11223', department: 'Cyber Crime', station: 'Eastside Police Station', contact: 'michael.johnson@police.gov'},
+            {name: 'Emily Davis', badgeNumber: '33445', department: 'Traffic', station: 'Northside Police Station', contact: 'emily.davis@police.gov'},
+        ];
+
+        function searchOfficer() {
+            // Get the search query
+            const query = document.getElementById('officerSearch').value.toLowerCase();
+
+            // Find the officer in the array
+            const officer = officers.find(officer => officer.name.toLowerCase() === query || officer.badgeNumber === query);
+
+            // Get the officer info container
+            const officerInfo = document.getElementById('officerInfo');
+
+            if (officer) {
+                // Display officer details
+                document.getElementById('officerName').textContent = `Name: ${officer.name}`;
+                document.getElementById('badgeNumber').textContent = `Badge Number: ${officer.badgeNumber}`;
+                document.getElementById('department').textContent = `Department: ${officer.department}`;
+                document.getElementById('station').textContent = `Station: ${officer.station}`;
+                document.getElementById('contact').textContent = `Contact: ${officer.contact}`;
+                officerInfo.style.display = 'block';
+            } else {
+                // Hide the officer info container and show a message if no officer is found
+                officerInfo.style.display = 'none';
+                alert('Officer not found.');
+            }
+        }
+
+        function sendNotification() {
+            // Get the officer information
+            const officerName = document.getElementById('officerName').textContent;
+            const badgeNumber = document.getElementById('badgeNumber').textContent;
+            const department = document.getElementById('department').textContent;
+            const station = document.getElementById('station').textContent;
+            const contact = document.getElementById('contact').textContent;
+
+            // Get the family member's email and phone
+            const familyEmail = document.getElementById('familyEmail').value;
+            const familyPhone = document.getElementById('familyPhone').value;
+
+            // Check if both email and phone number are entered
+            if (!familyEmail && !familyPhone) {
+                alert('Please enter at least one contact method for the family member.');
+                return;
+            }
+
+            // Prepare the message
+            const message = `
+                You have been notified that an arrest has been made:
+                Officer Name: ${officerName}
+                Badge Number: ${badgeNumber}
+                Department: ${department}
+                Station: ${station}
+                Contact: ${contact}
+            `;
+
+            // Simulate sending the message
+            if (familyEmail) {
+                alert(`Email sent to ${familyEmail}:\n${message}`);
+            }
+
+            if (familyPhone) {
+                alert(`SMS sent to ${familyPhone}:\n${message}`);
+            }
+
+            // Clear the input fields
+            document.getElementById('familyEmail').value = '';
+            document.getElementById('familyPhone').value = '';
+        }
+    </script>
+</body>
+</html>
